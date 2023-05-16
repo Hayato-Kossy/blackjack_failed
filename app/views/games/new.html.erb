@@ -1,0 +1,8 @@
+<!-- app/views/games/new.html.erb -->
+<h1>New Game</h1>
+
+<%= form_with(model: @game, url: games_path, method: :post) do |form| %>
+  <%= form.label :player_name, "Player Name" %>
+  <%= form.text_field :player_name %>
+  <%= form.submit "Start Game" %>
+<% end %>

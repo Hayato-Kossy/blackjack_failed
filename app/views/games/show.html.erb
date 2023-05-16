@@ -1,0 +1,40 @@
+<!-- app/views/games/show.html.erb -->
+<h1>Blackjack Game</h1>
+
+<h2>Player: <%= @game.player_name %></h2>
+<h3>Player Hand:</h3>
+<ul>
+  <% @game.player_cards.each do |card| %>
+    <li><%= card.rank %> of <%= card.suit %></li>
+  <% end %>
+</ul>
+<p>Total Points: <%= @game.player_total_points %></p>
+
+<h3>Dealer Hand:</h3>
+<ul>
+  <% @game.dealer_cards.each do |card| %>
+    <li><%= card.rank %> of <%= card.suit %></li>
+  <% end %>
+</ul>
+<p>Total Points: <%= @game.dealer_total_points %></p>
+
+<% if @game.game_over? %>
+  <% if @game.player_won? %>
+    <p>Congratulations! You won!</p>
+  <% elsif @game.dealer_won? %>
+    <p>Sorry, you lost. Dealer won.</p>
+  <% else %>
+    <p>It's a tie!</p>
+  <% end %>
+<% else %>
+  <% if @game.player_turn? %>
+    <%= form_with(url: hit_game_path(@game), method: :post) do |form| %>
+      <%= form.submit "Hit" %>
+    <% end %>
+    <%= form_with(url: surrender_game_path(@game), method: :post) do |form| %>
+      <%= form.submit "Surrender" %>
+    <% end %>
+  <% else %>
+    <p>Dealer's turn...</p>
+  <% end %>
+<% end %>
